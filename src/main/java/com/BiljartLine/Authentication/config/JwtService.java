@@ -2,6 +2,7 @@ package com.BiljartLine.Authentication.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private final Key key = new SecretKeySpec("PhnBSsuGwqJxsdqYZTBpt5pC7fQWjB3T".getBytes(), "HS256");
+    private final Key key = new SecretKeySpec("PhnBSsuGwqJxsdqYZTBpt5pC7fQWjB3T".getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
     public String generateToken(UserDetails userDetails){
         return Jwts
@@ -29,7 +30,7 @@ public class JwtService {
     }
 
     public boolean isJWTExpired(String jwt){
-        return new Date().after(getExperition(jwt));
+        return new Date().after(getExpiration(jwt));
     }
 
     public String getSubject(String jwt){
@@ -37,7 +38,7 @@ public class JwtService {
         return allClaims.getSubject();
     }
 
-    public Date getExperition(String jwt){
+    public Date getExpiration(String jwt){
         Claims allClaims = extractAllClaims(jwt);
         return allClaims.getExpiration();
     }
