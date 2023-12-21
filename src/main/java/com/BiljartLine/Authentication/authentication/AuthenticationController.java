@@ -16,13 +16,15 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     // adapt to return JWT token?
-    public String login(@RequestBody LoginDTO loginDTO) {
-        return authenticationService.login(loginDTO);
+    public AuthResponseDTO login(@RequestBody LoginDTO loginDTO) {
+        String token = authenticationService.login(loginDTO);
+        return new AuthResponseDTO(token);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/register")
-    public String register(@RequestBody @Valid RegisterDTO registerDTO) {
-        return authenticationService.register(registerDTO);
+    public AuthResponseDTO register(@RequestBody @Valid RegisterDTO registerDTO) {
+        String token = authenticationService.register(registerDTO);
+        return new AuthResponseDTO(token);
     }
 }
