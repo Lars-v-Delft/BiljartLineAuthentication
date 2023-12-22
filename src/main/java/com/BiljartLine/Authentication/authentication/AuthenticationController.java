@@ -19,7 +19,6 @@ public class AuthenticationController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    // adapt to return JWT token?
     public AuthResponseDTO login(@RequestBody LoginDTO loginDTO) {
         String token = authenticationService.login(loginDTO);
         return new AuthResponseDTO(token);
