@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtService {
     private final UserDetailsService userDetailsService;
-    private final Key key = new SecretKeySpec("PhnBSsuGwqJxsdqYZTBpt5pC7fQWjB3T".getBytes(), SignatureAlgorithm.HS256.getJcaName());
+    private final Key key = new SecretKeySpec(System.getenv("KEY").getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
     public String generateToken(UserDetails userDetails) {
         return Jwts
