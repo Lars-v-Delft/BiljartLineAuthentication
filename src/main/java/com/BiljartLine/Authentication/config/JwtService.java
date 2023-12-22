@@ -1,8 +1,11 @@
 package com.BiljartLine.Authentication.config;
 
+import com.BiljartLine.Authentication.exceptions.InvalidArgumentException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +22,17 @@ public class JwtService {
                 .builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 2))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))
                 .signWith(key)
                 .compact();
     }
 
-    public boolean isJWTValid(String jwt, UserDetails userDetails){
-        final String jwtUsername = getSubject(jwt);
-        return jwtUsername.equals(userDetails.getUsername()) && !isJWTExpired(jwt);
+    public void validate(String jwt){
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
+        } catch (Exception e){
+            throw new BadCredentialsException("Invalid token");
+        }
     }
 
     public boolean isJWTExpired(String jwt){

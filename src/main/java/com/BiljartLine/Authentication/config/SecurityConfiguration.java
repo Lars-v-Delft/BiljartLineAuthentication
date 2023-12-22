@@ -31,21 +31,10 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(r -> r
-//                        .requestMatchers(HttpMethod.GET).permitAll()
-//                        .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                        .requestMatchers("/authentication/**")
-                        .permitAll()
-                        )
+                        .requestMatchers("/authentication/**").permitAll())
                 .sessionManagement(s -> s
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
-
-        // .csrf(csrf -> csrf.disable()
-        // requestmatchers (path) . permitall()
-
-//        return httpSecurity.build();
     }
 
     @Bean

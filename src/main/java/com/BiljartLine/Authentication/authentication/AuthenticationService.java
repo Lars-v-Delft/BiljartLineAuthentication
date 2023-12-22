@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,11 @@ public class AuthenticationService {
         return jwtService.generateToken(user);
     }
 
-    //todo: Refresh token
+    public UserDetails getUserDetails(String jwt) {
+        jwtService.validate(jwt);
 
-    //todo: validate token
+        String username = jwtService.getSubject(jwt);
+        return userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+    }
 }
