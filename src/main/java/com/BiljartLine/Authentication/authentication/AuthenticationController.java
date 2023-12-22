@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/authentication")
 @RequiredArgsConstructor
